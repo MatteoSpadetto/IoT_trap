@@ -1,4 +1,4 @@
-# IoT_net_monitor
+# IoT_trap
 IoT adaptive system for remote monitoring using grafana, bash, database influxDB, python
 
 Designed for the IoT systems course in UniTn (prof. Davide Brunelli, Alessandro Torrisi)
