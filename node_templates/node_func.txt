@@ -1,0 +1,19 @@
+,{!
+        "id": "359c0e52.20c632",!
+        "type": "function",
+        "z": "4440423b.0c7bcc",
+        "name": "",
+        "func": "var msg_name = [!\"burst_0\", \"tx_done_0\", \"rx_done_0\", \"rx_fail_0\", \"tx_wait_0\", \"dbg_0\", \"engy_0\"!];\nflow.set(\"msg_name\", msg_name);\nvar id = (msg.payload).replace(\"\\n\", \"\");\nid = (id).replace(\"\\r\", \"\");\nvar id_to_check= Buffer.from(id,\"hex\");\nmsg.payload = id_to_check;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 520,!
+        "y": 460,!
+        "wires": [
+            [
+                "7d5fb56.cd8534c"
+            ]
+        ]
+    },!

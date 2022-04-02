@@ -1,0 +1,14 @@
+{!
+    "id": "421d4095.cc2c9",!
+    "type": "serial in",
+    "z": "4440423b.0c7bcc",!
+    "name": "arduino_uno",!
+    "serial": "b3ca3ab3.6667f8",!
+    "x": 110,!
+    "y": 520,!
+    "wires": [
+        [!
+            "359c0e52.20c632"!
+        ]
+    ]
+},!

@@ -1,0 +1,823 @@
+[
+    {!
+        "id": "4440423b.0c7bcc",!
+        "type": "tab",!
+        "label": "Iot_TRAP_tool",!
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "a05fbdfb.8031d",
+        "type": "influxdb out",
+        "z": "4440423b.0c7bcc",
+        "influxdb": "978d559.106ffa8",
+        "name": "burst_influx_db",
+        "measurement": "burst",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "iot_tool",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 1000,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "32e675a2.8aea8a",
+        "type": "influxdb out",
+        "z": "4440423b.0c7bcc",
+        "influxdb": "978d559.106ffa8",
+        "name": "tx_done_influx_db",
+        "measurement": "tx_done",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "iot_tool",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 1010,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "98a42d40.1a489",
+        "type": "debug",
+        "z": "4440423b.0c7bcc",
+        "name": "tx_done_id",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 990,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "7d5fb56.cd8534c",
+        "type": "function",
+        "z": "4440423b.0c7bcc",
+        "name": "file_id_parser",
+        "func": "var counter = flow.get(\"counter\");\nvar msg_name = flow.get(\"msg_name\")||[];\nvar id_to_check = msg.payload[0];\nvar msg_burst;\nvar msg_tx_done;\nvar msg_rx_done;\nvar msg_rx_fail;\nvar msg_tx_wait;\nvar msg_dbg;\nvar msg_engy;\nvar diff;\nvar diff_msg;\nswitch (id_to_check){\n    case 111:\n        msg_burst = {\"payload\": {[msg_name[0]]: id_to_check}};\n        var tot_burst = flow.get(\"tot_burst\");\n        tot_burst++;\n        flow.set(\"tot_burst\", tot_burst);\n        var tot_burst_msg = {\"payload\": {\"tot_burst\": tot_burst}};\n        break;\n    case 112:\n        msg_tx_done = {\"payload\": {[msg_name[1]]: id_to_check}};\n        var tot_tx_done = flow.get(\"tot_tx_done\");\n        tot_tx_done++;\n        flow.set(\"tot_tx_done\", tot_tx_done);\n        var tot_tx_done_msg = {\"payload\": {\"tot_tx_done\": tot_tx_done}};\n        break;\n    case 113:\n        msg_rx_done = {\"payload\": {[msg_name[2]]: id_to_check}};\n        var tot_rx_done = flow.get(\"tot_rx_done\");\n        tot_rx_done++;\n        flow.set(\"tot_rx_done\", tot_rx_done);\n        var tot_rx_done_msg = {\"payload\": {\"tot_rx_done\": tot_rx_done}};\n        break;\n    case 114:\n        msg_rx_fail = {\"payload\": {[msg_name[3]]: id_to_check}};\n        var tot_rx_fail = flow.get(\"tot_rx_fail\");\n        tot_rx_fail++;\n        flow.set(\"tot_rx_fail\", tot_rx_fail);\n        var tot_rx_fail_msg = {\"payload\": {\"tot_rx_fail\": tot_rx_fail}};\n        break;\n    case 115:\n        msg_tx_wait = {\"payload\": {[msg_name[4]]: id_to_check}};\n        var tot_tx_wait = flow.get(\"tot_tx_wait\");\n        tot_tx_wait++;\n        flow.set(\"tot_tx_wait\", tot_tx_wait);\n        var tot_tx_wait_msg = {\"payload\": {\"tot_tx_wait\": tot_tx_wait}};\n        break;\n    case 200:\n        msg_dbg = {\"payload\": {[msg_name[5]]: id_to_check}};\n        var tot_dbg = flow.get(\"tot_dbg\");\n        tot_dbg++;\n        flow.set(\"tot_dbg\", tot_dbg);\n        var tot_dbg_msg = {\"payload\": {\"tot_dbg\": tot_dbg}};\n        break;\n    default:\n        msg_engy = {\"payload\": {[msg_name[6]]: id_to_check}};\n}\nreturn [msg_burst, msg_tx_done, msg_rx_done, msg_rx_fail, msg_tx_wait, msg_dbg, msg_engy, tot_burst, tot_tx_done_msg, tot_rx_done_msg, tot_rx_fail_msg, tot_tx_wait_msg, tot_dbg_msg];",
+        "outputs": 13,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 740,
+        "y": 520,
+        "wires": [
+            [
+                "57570990.f5c978",
+                "a05fbdfb.8031d"
+            ],
+            [
+                "98a42d40.1a489",
+                "32e675a2.8aea8a"
+            ],
+            [
+                "4a51a236.5c9f9c",
+                "153ef3b2.ebc44c"
+            ],
+            [
+                "5224b49e.f1fe9c",
+                "4986a807.fd0c28"
+            ],
+            [
+                "5f1b37ca.998018",
+                "271a16f8.1dabfa"
+            ],
+            [
+                "28c20462.457bbc",
+                "19858cef.188523"
+            ],
+            [
+                "932523d3.f4378",
+                "6843c6ae.504428"
+            ],
+            [
+                "e061b09b.fd2c6",
+                "b10078a9.af92a8"
+            ],
+            [
+                "d859cb6.5ae9b38",
+                "ed25fe54.c89a2"
+            ],
+            [
+                "1c8f59d1.4ebb06",
+                "f93f1a33.44d1e8"
+            ],
+            [
+                "ddaf4b5e.a4eac8",
+                "99f2e731.3f9d38"
+            ],
+            [
+                "199b1bf2.573f94",
+                "142b6a1.4569796"
+            ],
+            [
+                "eb1cd830.1f7e48",
+                "ea82f7e4.cc2ab8"
+            ]
+        ]
+    },
+    {
+        "id": "57570990.f5c978",
+        "type": "debug",
+        "z": "4440423b.0c7bcc",
+        "name": "burst_id",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 980,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "4a51a236.5c9f9c",
+        "type": "influxdb out",
+        "z": "4440423b.0c7bcc",
+        "influxdb": "978d559.106ffa8",
+        "name": "rx_done_influx_db",
+        "measurement": "rx_done",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "iot_tool",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 1010,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "5224b49e.f1fe9c",
+        "type": "influxdb out",
+        "z": "4440423b.0c7bcc",
+        "influxdb": "978d559.106ffa8",
+        "name": "rx_fail_influx_db",
+        "measurement": "rx_fail",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "iot_tool",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 1000,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "28c20462.457bbc",
+        "type": "influxdb out",
+        "z": "4440423b.0c7bcc",
+        "influxdb": "978d559.106ffa8",
+        "name": "dbg_influx_db",
+        "measurement": "dbg",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "iot_tool",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 1000,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "932523d3.f4378",
+        "type": "influxdb out",
+        "z": "4440423b.0c7bcc",
+        "influxdb": "978d559.106ffa8",
+        "name": "engy_influx_db",
+        "measurement": "engy",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "iot_tool",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 1000,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "5f1b37ca.998018",
+        "type": "influxdb out",
+        "z": "4440423b.0c7bcc",
+        "influxdb": "978d559.106ffa8",
+        "name": "tx_wait_influx_db",
+        "measurement": "tx_wait",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "iot_tool",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 1010,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "153ef3b2.ebc44c",
+        "type": "debug",
+        "z": "4440423b.0c7bcc",
+        "name": "rx_done_id",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 990,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "4986a807.fd0c28",
+        "type": "debug",
+        "z": "4440423b.0c7bcc",
+        "name": "rx_fail_id",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 980,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "271a16f8.1dabfa",
+        "type": "debug",
+        "z": "4440423b.0c7bcc",
+        "name": "tx_wait_id",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 980,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "19858cef.188523",
+        "type": "debug",
+        "z": "4440423b.0c7bcc",
+        "name": "dbg_id",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 970,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "6843c6ae.504428",
+        "type": "debug",
+        "z": "4440423b.0c7bcc",
+        "name": "engy_id",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 980,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "4047a263.c35a0c",
+        "type": "exec",
+        "z": "4440423b.0c7bcc",
+        "command": "/home/matteospadetto/Documents/IoT_TRAP_tool/manage_influx_db.sh -d iot_tool -p",
+        "addpay": "",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "oldrc": false,
+        "name": "Drop old InfluxDB database",
+        "x": 360,
+        "y": 180,
+        "wires": [
+            [
+                "604fa091.3750f"
+            ],
+            [
+                "604fa091.3750f"
+            ],
+            [
+                "604fa091.3750f"
+            ]
+        ]
+    },
+    {
+        "id": "604fa091.3750f",
+        "type": "debug",
+        "z": "4440423b.0c7bcc",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 630,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "e5c71d8b.b857a",
+        "type": "inject",
+        "z": "4440423b.0c7bcc",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "0.3",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 130,
+        "y": 180,
+        "wires": [
+            [
+                "4047a263.c35a0c"
+            ]
+        ]
+    },
+    {
+        "id": "fac97afe.8840b8",
+        "type": "exec",
+        "z": "4440423b.0c7bcc",
+        "command": "/home/matteospadetto/Documents/IoT_TRAP_tool/manage_influx_db.sh -d iot_tool -c",
+        "addpay": "",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "oldrc": false,
+        "name": "Create new InfluxDB database",
+        "x": 370,
+        "y": 260,
+        "wires": [
+            [
+                "7b847ec9.98a78"
+            ],
+            [
+                "7b847ec9.98a78"
+            ],
+            [
+                "7b847ec9.98a78"
+            ]
+        ]
+    },
+    {
+        "id": "7b847ec9.98a78",
+        "type": "debug",
+        "z": "4440423b.0c7bcc",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 630,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "5e3c3bbf.84c224",
+        "type": "inject",
+        "z": "4440423b.0c7bcc",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "0.5",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 130,
+        "y": 260,
+        "wires": [
+            [
+                "fac97afe.8840b8",
+                "7d6b033e.3eb7ac"
+            ]
+        ]
+    },
+    {
+        "id": "5063d6ec.669ec8",
+        "type": "comment",
+        "z": "4440423b.0c7bcc",
+        "name": "Dropping old database",
+        "info": "Reading a file and storing in influx_db",
+        "x": 660,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "b3d6b57b.5ee768",
+        "type": "comment",
+        "z": "4440423b.0c7bcc",
+        "name": "Creating new database",
+        "info": "Reading a file and storing in influx_db",
+        "x": 660,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "7d6b033e.3eb7ac",
+        "type": "function",
+        "z": "4440423b.0c7bcc",
+        "name": "",
+        "func": "var tot_burst = 0;\nflow.set(\"tot_burst\", tot_burst);\nvar tot_tx_done = 0;\nflow.set(\"tot_tx_done\", tot_tx_done);\nvar tot_rx_done = 0;\nflow.set(\"tot_rx_done\", tot_rx_done);\nvar tot_rx_fail = 0;\nflow.set(\"tot_rx_fail\", tot_rx_fail);\nvar tot_tx_wait = 0;\nflow.set(\"tot_tx_wait\", tot_tx_wait);\nvar tot_dbg = 0;\nflow.set(\"tot_dbg\", tot_dbg);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 300,
+        "y": 320,
+        "wires": [
+            [
+                "ba147ee9.994b5"
+            ]
+        ]
+    },
+    {
+        "id": "ba147ee9.994b5",
+        "type": "debug",
+        "z": "4440423b.0c7bcc",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 450,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "ed25fe54.c89a2",
+        "type": "debug",
+        "z": "4440423b.0c7bcc",
+        "name": "tot_tx_done",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 990,
+        "y": 740,
+        "wires": []
+    },
+    {
+        "id": "d859cb6.5ae9b38",
+        "type": "influxdb out",
+        "z": "4440423b.0c7bcc",
+        "influxdb": "978d559.106ffa8",
+        "name": "tot_tx_done_influx_db",
+        "measurement": "tot_tx_done",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "iot_tool",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 1020,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "f93f1a33.44d1e8",
+        "type": "debug",
+        "z": "4440423b.0c7bcc",
+        "name": "tot_rx_done",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 990,
+        "y": 820,
+        "wires": []
+    },
+    {
+        "id": "1c8f59d1.4ebb06",
+        "type": "influxdb out",
+        "z": "4440423b.0c7bcc",
+        "influxdb": "978d559.106ffa8",
+        "name": "tot_rx_done_influx_db",
+        "measurement": "tot_rx_done",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "iot_tool",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 1020,
+        "y": 780,
+        "wires": []
+    },
+    {
+        "id": "b10078a9.af92a8",
+        "type": "debug",
+        "z": "4440423b.0c7bcc",
+        "name": "tot_burst",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 980,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "e061b09b.fd2c6",
+        "type": "influxdb out",
+        "z": "4440423b.0c7bcc",
+        "influxdb": "978d559.106ffa8",
+        "name": "tot_burst_influx_db",
+        "measurement": "tot_burst",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "iot_tool",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 1010,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "142b6a1.4569796",
+        "type": "debug",
+        "z": "4440423b.0c7bcc",
+        "name": "tot_tx_wait",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 990,
+        "y": 980,
+        "wires": []
+    },
+    {
+        "id": "199b1bf2.573f94",
+        "type": "influxdb out",
+        "z": "4440423b.0c7bcc",
+        "influxdb": "978d559.106ffa8",
+        "name": "tot_tx_wait_influx_db",
+        "measurement": "tot_tx_wait",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "iot_tool",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 1020,
+        "y": 940,
+        "wires": []
+    },
+    {
+        "id": "ea82f7e4.cc2ab8",
+        "type": "debug",
+        "z": "4440423b.0c7bcc",
+        "name": "tot_dbg",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 980,
+        "y": 1060,
+        "wires": []
+    },
+    {
+        "id": "eb1cd830.1f7e48",
+        "type": "influxdb out",
+        "z": "4440423b.0c7bcc",
+        "influxdb": "978d559.106ffa8",
+        "name": "tot_dbg_influx_db",
+        "measurement": "tot_dbg",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "iot_tool",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 1010,
+        "y": 1020,
+        "wires": []
+    },
+    {
+        "id": "99f2e731.3f9d38",
+        "type": "debug",
+        "z": "4440423b.0c7bcc",
+        "name": "tot_rx_fail",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 980,
+        "y": 900,
+        "wires": []
+    },
+    {
+        "id": "ddaf4b5e.a4eac8",
+        "type": "influxdb out",
+        "z": "4440423b.0c7bcc",
+        "influxdb": "978d559.106ffa8",
+        "name": "tot_rx_fail_influx_db",
+        "measurement": "tot_rx_fail",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "iot_tool",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 1020,
+        "y": 860,
+        "wires": []
+    },
+    {
+        "id": "3bb2b103.a2f93e",
+        "type": "inject",
+        "z": "4440423b.0c7bcc",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 140,
+        "y": 380,
+        "wires": [
+            [
+                "783638a9.be6838"
+            ]
+        ]
+    },
+    {
+        "id": "783638a9.be6838",
+        "type": "exec",
+        "z": "4440423b.0c7bcc",
+        "command": "/home/matteospadetto/Documents/IoT_TRAP_tool/manage_influx_db.sh -d iot_tool -w /home/matteospadetto/Documents/IoT_TRAP_tool/csv_test/ ",
+        "addpay": "",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "oldrc": false,
+        "name": "Save CSV files",
+        "x": 320,
+        "y": 380,
+        "wires": [
+            [
+                "39955a3b.eebbe6"
+            ],
+            [
+                "39955a3b.eebbe6"
+            ],
+            [
+                "39955a3b.eebbe6"
+            ]
+        ]
+    },
+    {
+        "id": "39955a3b.eebbe6",
+        "type": "debug",
+        "z": "4440423b.0c7bcc",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 630,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "cd153c82.d6d82",
+        "type": "comment",
+        "z": "4440423b.0c7bcc",
+        "name": "Saving CSV files",
+        "info": "Reading a file and storing in influx_db",
+        "x": 640,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "978d559.106ffa8",
+        "type": "influxdb",
+        "hostname": "localhost",
+        "port": "8086",
+        "protocol": "http",
+        "database": "database",
+        "name": "iot_tool_database",
+        "usetls": false,
+        "tls": "",
+        "influxdbVersion": "1.8-flux",
+        "url": "http://localhost:8086",
+        "rejectUnauthorized": false
+    }!
+]!
