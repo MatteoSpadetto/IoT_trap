@@ -1,7 +1,7 @@
 # IoT_trap
 IoT adaptive system for remote monitoring using grafana, bash, database influxDB, python, Node-Red
 
-Designed for the IoT systems course in UniTn (prof. Davide Brunelli, Alessandro Torrisi)
+IoT systems course in UniTn (prof. Davide Brunelli, Alessandro Torrisi)
 
 [Reliable Transiently-Powered Communication published by IEEE](https://ieeexplore.ieee.org/document/9733918)
 
