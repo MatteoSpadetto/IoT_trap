@@ -1,7 +1,7 @@
-# IoT_trap
+# IoT_net_monitor
 IoT adaptive system for remote monitoring using grafana, bash, database influxDB, python
 
-Designed for the IoT systems course in UniTn (prof. Davide Brunelli, prof. Davide Brunelli, Alessandro Torrisi)
+Designed for the IoT systems course in UniTn (prof. Davide Brunelli, Alessandro Torrisi)
 
 Debug tool used for testing the TRAP (TRAnsiently-powered Protocol) for intermittent communication among transiently-powered devices. 
 
